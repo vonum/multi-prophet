@@ -1,0 +1,16 @@
+version: v1.0
+name: Initial Pipeline
+agent:
+  machine:
+    type: e1-standard-2
+    os_image: ubuntu1804
+blocks:
+  - name: tests
+    task:
+      jobs:
+        - name: unit
+          commands:
+            - sem-version python 3.7
+            - checkout
+            - pip install -r requirements.txt
+            - python -m pytest tests
