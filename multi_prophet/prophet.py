@@ -3,11 +3,11 @@ import fbprophet
 
 class Prophet:
 
-    def __init__(self):
-        self.prophet = fbprophet.Prophet()
+    def __init__(self, **kwargs):
+        self.prophet = fbprophet.Prophet(**kwargs)
 
-    def fit(self, df):
-        self.prophet.fit(df)
+    def fit(self, df, **kwargs):
+        self.prophet.fit(df, **kwargs)
 
     def make_future_dataframe(self, periods):
         return self.prophet.make_future_dataframe(periods=periods)

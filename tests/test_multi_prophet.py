@@ -19,11 +19,30 @@ class MultiProphetTestCase(unittest.TestCase):
         self.assertIsNotNone(mp)
         self.assertIsInstance(mp.prophet, fbprophet.Prophet)
 
+    def test_constructor_kwargs(self):
+        mp = multi_prophet.Prophet(growth="logistic")
+        self.assertEqual("logistic", mp.prophet.growth)
+
+    def test_constructor_invalid_kwargs(self):
+        with self.assertRaises(TypeError):
+            mp = multi_prophet.Prophet(invalid="logistic")
+
     def test_fit(self):
         mp = multi_prophet.Prophet()
         mp.fit(self.df)
         # will be tested later by checking the performance of the model
         self.assertTrue(True)
+
+    def test_fit_kwargs(self):
+        mp = multi_prophet.Prophet()
+        mp.fit(self.df, algorithm="Newton")
+        # will be tested later by checking the performance of the model
+        self.assertTrue(True)
+
+    def test_fit_invalid_kwargs(self):
+        mp = multi_prophet.Prophet()
+        with self.assertRaises(ValueError):
+            mp.fit(self.df, invalid="Newton")
 
     def test_make_future_dataframe_length(self):
         mp = multi_prophet.Prophet()
