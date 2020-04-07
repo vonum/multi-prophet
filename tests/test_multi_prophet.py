@@ -87,3 +87,14 @@ class MultiProphetTestCase(unittest.TestCase):
 
         self.assertEqual(len(future_df), len(forecast))
         self.assertEqual(columns, list(forecast.columns.values))
+
+    def test_add_seasonality(self):
+        mp = multi_prophet.Prophet()
+        mp.add_seasonality(name="monthly", period=30.5, fourier_order=5)
+        seasonality = mp.prophet.seasonalities["monthly"]
+
+        self.assertEqual(30.5, seasonality["period"])
+        self.assertEqual(5, seasonality["fourier_order"])
+        self.assertEqual(10, seasonality["prior_scale"])
+        self.assertEqual("additive", seasonality["mode"])
+        self.assertIsNone(seasonality["condition_name"])

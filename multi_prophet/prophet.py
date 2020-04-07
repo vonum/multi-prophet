@@ -14,3 +14,6 @@ class Prophet:
 
     def predict(self, future_df):
         return self.prophet.predict(future_df)
+
+    def add_seasonality(self, **kwargs):
+        self.prophet.add_seasonality(**kwargs)
