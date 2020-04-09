@@ -13,10 +13,9 @@ class FactoriesTestCase(unittest.TestCase):
 
         y1_model = model_pool["y1"]
         self.assertIsInstance(y1_model, multi_prophet.Prophet)
-        self.assertIsInstance(y1_model.prophet, fbprophet.Prophet)
 
         y2_model = model_pool["y2"]
-        self.assertIsInstance(y2_model.prophet, fbprophet.Prophet)
+        self.assertIsInstance(y2_model, multi_prophet.Prophet)
 
     def test_equal_models_pool_factory(self):
         model_pool = multi_prophet.model_pool_factory(

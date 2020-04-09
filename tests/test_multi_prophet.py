@@ -19,13 +19,6 @@ class MultiProphetTestCase(unittest.TestCase):
         mp = multi_prophet.MultiProphet(columns=PREDICTOR_COLUMNS)
         self.assertIsNotNone(mp)
 
-    def test_model_pool(self):
-        mp = multi_prophet.MultiProphet(columns=PREDICTOR_COLUMNS)
-        self.assertEqual(2, len(mp.model_pool))
-        self.assertEqual(["y", "y1"], list(mp.model_pool.keys()))
-        for m in mp.model_pool.values():
-            self.assertIsInstance(m, multi_prophet.Prophet)
-
     def test_make_future_dataframe_length(self):
         mp = multi_prophet.MultiProphet(columns=PREDICTOR_COLUMNS)
         mp.fit(self.df)
