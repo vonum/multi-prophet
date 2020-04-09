@@ -17,3 +17,6 @@ class Prophet:
 
     def add_seasonality(self, **kwargs):
         self.prophet.add_seasonality(**kwargs)
+
+    def add_country_holidays(self, country_name):
+        self.prophet.add_country_holidays(country_name=country_name)

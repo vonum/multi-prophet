@@ -29,6 +29,10 @@ class MultiProphet:
         for model in self.model_pool.values():
             model.add_seasonality(**kwargs)
 
+    def add_country_holidays(self, country_name):
+        for model in self.model_pool.values():
+            model.add_country_holidays(country_name)
+
     def _init_model_pool(self, columns, **kwargs):
         return {c: Prophet(**kwargs) for c in columns}
 
