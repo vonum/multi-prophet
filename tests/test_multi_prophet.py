@@ -79,6 +79,18 @@ class MultiProphetTestCase(unittest.TestCase):
         for model in mp.model_pool.values():
             self.assertEqual(14, len(model.prophet.train_holiday_names))
 
+    def test_add_regressor(self):
+        mp = multi_prophet.MultiProphet(columns=PREDICTOR_COLUMNS)
+        mp.add_regressor("Matchday")
+
+        for model in mp.model_pool.values():
+            extra_regressor = model.prophet.extra_regressors["Matchday"]
+            self.assertEqual(10.0, extra_regressor["prior_scale"])
+            self.assertEqual("auto", extra_regressor["standardize"])
+            self.assertEqual(0.0, extra_regressor["mu"])
+            self.assertEqual(1.0, extra_regressor["std"])
+            self.assertEqual("additive", extra_regressor["mode"])
+
     def test_plot(self):
         mp = multi_prophet.MultiProphet(columns=PREDICTOR_COLUMNS)
         mp.fit(self.df)
