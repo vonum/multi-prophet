@@ -74,3 +74,13 @@ class MultiProphetTestCase(unittest.TestCase):
             self.assertEqual(10, seasonality["prior_scale"])
             self.assertEqual("additive", seasonality["mode"])
             self.assertIsNone(seasonality["condition_name"])
+
+    def test_add_country_holiday(self):
+        mp = multi_prophet.MultiProphet(columns=PREDICTOR_COLUMNS)
+        mp.add_country_holidays(country_name="US")
+
+        mp.fit(self.df)
+        future_df = mp.make_future_dataframe(7)
+
+        for model in mp.model_pool.values():
+            self.assertEqual(14, len(model.prophet.train_holiday_names))
