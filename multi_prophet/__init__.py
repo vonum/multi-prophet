@@ -1,5 +1,6 @@
 import pandas as pd
 from .prophet import Prophet
+from .factories import model_pool_factory
 
 __version__ = "0.1"
 TIME_COLUMN = "ds"
@@ -7,8 +8,10 @@ TIME_COLUMN = "ds"
 
 class MultiProphet:
 
-    def __init__(self, columns, **kwargs):
-        self.model_pool = self._init_model_pool(columns, **kwargs)
+    def __init__(self, columns=[], args_dict=None, **kwargs):
+        self.model_pool = model_pool_factory(columns=columns,
+                                             args_dict=args_dict,
+                                             **kwargs)
 
     def fit(self, df, **kwargs):
         for column, model in self.model_pool.items():
