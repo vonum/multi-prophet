@@ -105,6 +105,17 @@ class ProphetTestCase(unittest.TestCase):
 
         self.assertEqual(14, len(mp.prophet.train_holiday_names))
 
+    def test_add_regressor(self):
+        mp = multi_prophet.Prophet()
+        mp.add_regressor("Matchday")
+
+        extra_regressor = mp.prophet.extra_regressors["Matchday"]
+        self.assertEqual(10.0, extra_regressor["prior_scale"])
+        self.assertEqual("auto", extra_regressor["standardize"])
+        self.assertEqual(0.0, extra_regressor["mu"])
+        self.assertEqual(1.0, extra_regressor["std"])
+        self.assertEqual("additive", extra_regressor["mode"])
+
     def test_plot(self):
         mp = multi_prophet.Prophet()
         mp.fit(self.df)
