@@ -1,6 +1,7 @@
 import unittest
 import numpy as np
 import pandas as pd
+import matplotlib
 import multi_prophet
 
 PREDICTOR_COLUMNS = ["y", "y1"]
@@ -84,3 +85,27 @@ class MultiProphetTestCase(unittest.TestCase):
 
         for model in mp.model_pool.values():
             self.assertEqual(14, len(model.prophet.train_holiday_names))
+
+    def test_plot(self):
+        mp = multi_prophet.MultiProphet(columns=PREDICTOR_COLUMNS)
+        mp.fit(self.df)
+
+        future_df = mp.make_future_dataframe(7)
+        forecasts = mp.predict(future_df)
+
+        plots = mp.plot(forecasts).values()
+
+        for plot in plots:
+          self.assertIsInstance(plot, matplotlib.figure.Figure)
+
+    def test_components_plot(self):
+        mp = multi_prophet.MultiProphet(columns=PREDICTOR_COLUMNS)
+        mp.fit(self.df)
+
+        future_df = mp.make_future_dataframe(7)
+        forecasts = mp.predict(future_df)
+
+        plots = mp.plot_components(forecasts).values()
+
+        for plot in plots:
+          self.assertIsInstance(plot, matplotlib.figure.Figure)

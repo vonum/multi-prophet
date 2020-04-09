@@ -33,6 +33,18 @@ class MultiProphet:
         for model in self.model_pool.values():
             model.add_country_holidays(country_name)
 
+    def plot(self, forecasts):
+        return {
+            column: self.model_pool[column].plot(forecast)
+            for column, forecast in forecasts.items()
+        }
+
+    def plot_components(self, forecasts):
+        return {
+            column: self.model_pool[column].plot_components(forecast)
+            for column, forecast in forecasts.items()
+        }
+
     def _init_model_pool(self, columns, **kwargs):
         return {c: Prophet(**kwargs) for c in columns}
 
