@@ -1,3 +1,4 @@
+import pdb
 import unittest
 import numpy as np
 import pandas as pd
@@ -114,6 +115,15 @@ class ProphetTestCase(unittest.TestCase):
 
         self.assertIsInstance(mp.plot(forecast), matplotlib.figure.Figure)
 
+    def test_plotly_plot(self):
+        mp = multi_prophet.Prophet()
+        mp.fit(self.df)
+
+        future_df = mp.make_future_dataframe(7)
+        forecast = mp.predict(future_df)
+
+        self.assertIsInstance(mp.plot(forecast, plotly=True), matplotlib.figure.Figure)
+
     def test_components_plot(self):
         mp = multi_prophet.Prophet()
         mp.fit(self.df)
@@ -123,5 +133,17 @@ class ProphetTestCase(unittest.TestCase):
 
         self.assertIsInstance(
             mp.plot_components(forecast),
+            matplotlib.figure.Figure
+        )
+
+    def test_plotly_components_plot(self):
+        mp = multi_prophet.Prophet()
+        mp.fit(self.df)
+
+        future_df = mp.make_future_dataframe(7)
+        forecast = mp.predict(future_df)
+
+        self.assertIsInstance(
+            mp.plot_components(forecast, plotly=True),
             matplotlib.figure.Figure
         )

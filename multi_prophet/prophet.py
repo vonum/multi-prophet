@@ -1,4 +1,5 @@
 import fbprophet
+from . import plots
 
 
 class Prophet:
@@ -21,8 +22,14 @@ class Prophet:
     def add_country_holidays(self, country_name):
         self.prophet.add_country_holidays(country_name=country_name)
 
-    def plot(self, forecast):
-        return self.prophet.plot(forecast)
+    def plot(self, forecast, plotly=False, **kwargs):
+        if plotly:
+            return plots.plotly_plot(self.prophet, forecast, **kwargs)
+        else:
+            return self.prophet.plot(forecast)
 
-    def plot_components(self, forecast):
-        return self.prophet.plot_components(forecast)
+    def plot_components(self, forecast, plotly=False, **kwargs):
+        if plotly:
+            return plots.plotly_components_plot(self.prophet, forecast, **kwargs)
+        else:
+            return self.prophet.plot_components(forecast)
