@@ -22,6 +22,9 @@ class Prophet:
     def add_country_holidays(self, country_name):
         self.prophet.add_country_holidays(country_name=country_name)
 
+    def add_regressor(self, name, **kwargs):
+        self.prophet.add_regressor(name, **kwargs)
+
     def plot(self, forecast, plotly=False, **kwargs):
         if plotly:
             return plots.plotly_plot(self.prophet, forecast, **kwargs)
