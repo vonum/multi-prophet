@@ -30,6 +30,14 @@ class ProphetTestCase(unittest.TestCase):
         # will be tested later by checking the performance of the model
         self.assertTrue(True)
 
+    def test_fit_logistic(self):
+        mp = multi_prophet.Prophet(growth="logistic")
+        self.df["cap"] = 200
+        self.df["floor"] = 0
+        mp.fit(self.df)
+        # will be tested later by checking the performance of the model
+        self.assertTrue(True)
+
     def test_fit_kwargs(self):
         mp = multi_prophet.Prophet()
         mp.fit(self.df, algorithm="Newton")
