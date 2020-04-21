@@ -65,7 +65,14 @@ class MultiProphet:
           "ds": df[TIME_COLUMN].values,
           "y": df[column].values
         })
-        train_df["cap"] = df[f"cap_{column}"].values
-        train_df["floor"] = df[f"floor_{column}"].values
+
+        if self._contains_columns(df, f"cap_{column}"):
+            train_df["cap"] = df[f"cap_{column}"].values
+
+        if self._contains_columns(df, f"floor_{column}"):
+            train_df["floor"] = df[f"floor_{column}"].values
 
         return train_df
+
+    def _contains_columns(self, df, column):
+        return column in df.columns
