@@ -61,7 +61,18 @@ class MultiProphet:
         return list(self.model_pool.values())[0]
 
     def _create_dataframe(self, df, column):
-        return pd.DataFrame({
+        train_df = pd.DataFrame({
           "ds": df[TIME_COLUMN].values,
           "y": df[column].values
         })
+
+        if self._contains_columns(df, f"cap_{column}"):
+            train_df["cap"] = df[f"cap_{column}"].values
+
+        if self._contains_columns(df, f"floor_{column}"):
+            train_df["floor"] = df[f"floor_{column}"].values
+
+        return train_df
+
+    def _contains_columns(self, df, column):
+        return column in df.columns
