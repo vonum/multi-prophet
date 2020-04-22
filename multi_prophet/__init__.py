@@ -18,9 +18,9 @@ class MultiProphet:
             mdf = self._create_dataframe(df, column)
             model.fit(mdf, **kwargs)
 
-    def make_future_dataframe(self, periods):
+    def make_future_dataframe(self, periods, **kwargs):
         model = self._first_model()
-        return model.make_future_dataframe(periods)
+        return model.make_future_dataframe(periods, **kwargs)
 
     def predict(self, future_df):
         return {

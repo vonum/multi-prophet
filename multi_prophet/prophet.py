@@ -10,8 +10,8 @@ class Prophet:
     def fit(self, df, **kwargs):
         self.prophet.fit(df, **kwargs)
 
-    def make_future_dataframe(self, periods):
-        return self.prophet.make_future_dataframe(periods=periods)
+    def make_future_dataframe(self, periods, **kwargs):
+        return self.prophet.make_future_dataframe(periods=periods, **kwargs)
 
     def predict(self, future_df):
         return self.prophet.predict(future_df)
