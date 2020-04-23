@@ -1,6 +1,6 @@
 import pandas as pd
 from .prophet import Prophet
-from .factories import model_pool_factory
+from .factories import model_pool_factory, dataframe_builder_factory
 
 __version__ = "0.1"
 TIME_COLUMN = "ds"

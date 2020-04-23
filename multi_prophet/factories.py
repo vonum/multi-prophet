@@ -7,6 +7,10 @@ def model_pool_factory(columns=None, args_dict=None, regressors={}, **kwargs):
     else:
         return _equal_models_pool_factory(columns, regressors, **kwargs)
 
+def dataframe_builder_factory(regressors):
+    regressors = {c: _map_regressor_name(regressors[c]) for c in regressors.keys()}
+    return DataFrameBuilder(regressors)
+
 def _different_models_pool_factory(args_dict, regressors):
     return {
         c: _build_model(regressors.get(c, []), **kwargs)
