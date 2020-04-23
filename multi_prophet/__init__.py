@@ -3,15 +3,16 @@ from .prophet import Prophet
 from .factories import model_pool_factory, dataframe_builder_factory
 
 __version__ = "0.1"
-TIME_COLUMN = "ds"
 
 
 class MultiProphet:
 
-    def __init__(self, columns=[], args_dict=None, **kwargs):
+    def __init__(self, columns=[], args_dict=None, regressors={}, **kwargs):
         self.model_pool = model_pool_factory(columns=columns,
                                              args_dict=args_dict,
+                                             regressors=regressors,
                                              **kwargs)
+        self.df_builder = dataframe_builder_factory(regressors)
 
     def fit(self, df, **kwargs):
         for column, model in self.model_pool.items():
@@ -61,18 +62,7 @@ class MultiProphet:
         return list(self.model_pool.values())[0]
 
     def _create_dataframe(self, df, column):
-        train_df = pd.DataFrame({
-          "ds": df[TIME_COLUMN].values,
-          "y": df[column].values
-        })
-
-        if self._contains_columns(df, f"cap_{column}"):
-            train_df["cap"] = df[f"cap_{column}"].values
-
-        if self._contains_columns(df, f"floor_{column}"):
-            train_df["floor"] = df[f"floor_{column}"].values
-
-        return train_df
+        return self.df_builder.training_df(df, column)
 
     def _contains_columns(self, df, column):
         return column in df.columns
