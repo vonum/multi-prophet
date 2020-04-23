@@ -1,7 +1,7 @@
-from fbprophet.plot import plot, plot_components
+from fbprophet.plot import plot_plotly, plot_components_plotly
 
 def plotly_plot(model, forecast, **kwargs):
-    return plot(model, forecast, **kwargs)
+    return plot_plotly(model, forecast, **kwargs)
 
 def plotly_components_plot(model, forecast, **kwargs):
-    return plot_components(model, forecast, **kwargs)
+    return plot_components_plotly(model, forecast, **kwargs)
