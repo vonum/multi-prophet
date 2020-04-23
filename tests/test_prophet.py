@@ -2,6 +2,7 @@ import unittest
 import numpy as np
 import pandas as pd
 import matplotlib
+import plotly
 import fbprophet
 import multi_prophet
 
@@ -140,7 +141,7 @@ class ProphetTestCase(unittest.TestCase):
         future_df = mp.make_future_dataframe(7)
         forecast = mp.predict(future_df)
 
-        self.assertIsInstance(mp.plot(forecast, plotly=True), matplotlib.figure.Figure)
+        self.assertIsInstance(mp.plot(forecast, plotly=True), plotly.graph_objs.Figure)
 
     def test_components_plot(self):
         mp = multi_prophet.Prophet()
@@ -163,5 +164,5 @@ class ProphetTestCase(unittest.TestCase):
 
         self.assertIsInstance(
             mp.plot_components(forecast, plotly=True),
-            matplotlib.figure.Figure
+            plotly.graph_objs.Figure
         )
