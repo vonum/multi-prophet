@@ -7,11 +7,11 @@ class DataFrameBuilder:
     def __init__(self, regressors):
         self.regressors = regressors
 
-    def training_df(self, df, column):
-        train_df = pd.DataFrame({
-            "ds": df[TIME_COLUMN].values,
-            "y": df[column].values
-        })
+    def create_df(self, df, column, train=False):
+        train_df = pd.DataFrame({"ds": df[TIME_COLUMN].values})
+
+        if train:
+            train_df["y"] = df[column].values
 
         if self._contains_columns(df, f"cap_{column}"):
             train_df["cap"] = df[f"cap_{column}"].values

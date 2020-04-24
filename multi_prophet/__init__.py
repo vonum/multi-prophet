@@ -16,7 +16,7 @@ class MultiProphet:
 
     def fit(self, df, **kwargs):
         for column, model in self.model_pool.items():
-            mdf = self._create_dataframe(df, column)
+            mdf = self._create_dataframe(df, column, train=True)
             model.fit(mdf, **kwargs)
 
     def make_future_dataframe(self, periods, **kwargs):
@@ -25,7 +25,7 @@ class MultiProphet:
 
     def predict(self, future_df):
         return {
-            column: model.predict(future_df)
+            column: model.predict(self._create_dataframe(future_df, column))
             for column, model in self.model_pool.items()
         }
 
@@ -61,8 +61,8 @@ class MultiProphet:
     def _first_model(self):
         return list(self.model_pool.values())[0]
 
-    def _create_dataframe(self, df, column):
-        return self.df_builder.training_df(df, column)
+    def _create_dataframe(self, df, column, train=False):
+        return self.df_builder.create_df(df, column, train=train)
 
     def _contains_columns(self, df, column):
         return column in df.columns
