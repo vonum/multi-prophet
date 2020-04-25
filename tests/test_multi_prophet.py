@@ -13,7 +13,7 @@ class MultiProphetTestCase(unittest.TestCase):
         self.df["y1"] = self.df["y"]
 
     def test_version(self):
-        self.assertEqual("0.1", multi_prophet.__version__)
+        self.assertEqual("0.2.0", multi_prophet.__version__)
 
     def test_constructor(self):
         mp = multi_prophet.MultiProphet(columns=PREDICTOR_COLUMNS)
