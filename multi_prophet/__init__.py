@@ -1,21 +1,22 @@
 import pandas as pd
 from .prophet import Prophet
-from .factories import model_pool_factory
+from .factories import model_pool_factory, dataframe_builder_factory
 
 __version__ = "0.1"
-TIME_COLUMN = "ds"
 
 
 class MultiProphet:
 
-    def __init__(self, columns=[], args_dict=None, **kwargs):
+    def __init__(self, columns=[], args_dict=None, regressors={}, **kwargs):
         self.model_pool = model_pool_factory(columns=columns,
                                              args_dict=args_dict,
+                                             regressors=regressors,
                                              **kwargs)
+        self.df_builder = dataframe_builder_factory(regressors)
 
     def fit(self, df, **kwargs):
         for column, model in self.model_pool.items():
-            mdf = self._create_dataframe(df, column)
+            mdf = self._create_dataframe(df, column, train=True)
             model.fit(mdf, **kwargs)
 
     def make_future_dataframe(self, periods, **kwargs):
@@ -24,7 +25,7 @@ class MultiProphet:
 
     def predict(self, future_df):
         return {
-            column: model.predict(future_df)
+            column: model.predict(self._create_dataframe(future_df, column))
             for column, model in self.model_pool.items()
         }
 
@@ -60,19 +61,8 @@ class MultiProphet:
     def _first_model(self):
         return list(self.model_pool.values())[0]
 
-    def _create_dataframe(self, df, column):
-        train_df = pd.DataFrame({
-          "ds": df[TIME_COLUMN].values,
-          "y": df[column].values
-        })
-
-        if self._contains_columns(df, f"cap_{column}"):
-            train_df["cap"] = df[f"cap_{column}"].values
-
-        if self._contains_columns(df, f"floor_{column}"):
-            train_df["floor"] = df[f"floor_{column}"].values
-
-        return train_df
+    def _create_dataframe(self, df, column, train=False):
+        return self.df_builder.create_df(df, column, train=train)
 
     def _contains_columns(self, df, column):
         return column in df.columns
