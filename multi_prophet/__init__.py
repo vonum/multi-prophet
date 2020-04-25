@@ -1,4 +1,3 @@
-import pandas as pd
 from .prophet import Prophet
 from .factories import model_pool_factory, dataframe_builder_factory
 
