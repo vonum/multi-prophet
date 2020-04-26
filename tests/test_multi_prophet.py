@@ -108,7 +108,7 @@ class MultiProphetTestCase(unittest.TestCase):
         y1_model = mp.model_pool["y1"]
         self.assertIsNone(y1_model.prophet.train_holiday_names)
 
-    def test_add_regressor(self):
+    def test_add_regressor_all_models(self):
         mp = multi_prophet.MultiProphet(columns=PREDICTOR_COLUMNS)
         mp.add_regressor("Matchday")
 
@@ -119,6 +119,21 @@ class MultiProphetTestCase(unittest.TestCase):
             self.assertEqual(0.0, extra_regressor["mu"])
             self.assertEqual(1.0, extra_regressor["std"])
             self.assertEqual("additive", extra_regressor["mode"])
+
+    def test_add_regressor_single_model(self):
+        mp = multi_prophet.MultiProphet(columns=PREDICTOR_COLUMNS)
+        mp.add_regressor("Matchday", columns=["y"])
+
+        y_model = mp.model_pool["y"]
+        y_extra_regressor = y_model.prophet.extra_regressors["Matchday"]
+        self.assertEqual(10.0, y_extra_regressor["prior_scale"])
+        self.assertEqual("auto", y_extra_regressor["standardize"])
+        self.assertEqual(0.0, y_extra_regressor["mu"])
+        self.assertEqual(1.0, y_extra_regressor["std"])
+        self.assertEqual("additive", y_extra_regressor["mode"])
+
+        y1_model = mp.model_pool["y1"]
+        self.assertTrue("Matchday" not in y1_model.prophet.extra_regressors.keys())
 
     def test_plot(self):
         mp = multi_prophet.MultiProphet(columns=PREDICTOR_COLUMNS)

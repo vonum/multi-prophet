@@ -36,8 +36,8 @@ class MultiProphet:
         for model in self._columns_models(columns):
             model.add_country_holidays(country_name)
 
-    def add_regressor(self, name, **kwargs):
-        for model in self.model_pool.values():
+    def add_regressor(self, name, columns=None, **kwargs):
+        for model in self._columns_models(columns):
             model.add_regressor(name, **kwargs)
 
     def plot(self, forecasts, plotly=False, **kwargs):
