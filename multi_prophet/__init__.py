@@ -28,12 +28,12 @@ class MultiProphet:
             for column, model in self.model_pool.items()
         }
 
-    def add_seasonality(self, **kwargs):
-        for model in self.model_pool.values():
+    def add_seasonality(self, columns=None, **kwargs):
+        for model in self._columns_models(columns):
             model.add_seasonality(**kwargs)
 
-    def add_country_holidays(self, country_name):
-        for model in self.model_pool.values():
+    def add_country_holidays(self, country_name, columns=None):
+        for model in self._columns_models(columns):
             model.add_country_holidays(country_name)
 
     def add_regressor(self, name, **kwargs):
@@ -65,3 +65,9 @@ class MultiProphet:
 
     def _contains_columns(self, df, column):
         return column in df.columns
+
+    def _columns_models(self, columns):
+        if columns:
+            return [self.model_pool[c] for c in columns]
+        else:
+            return self.model_pool.values()

@@ -56,7 +56,7 @@ class MultiProphetTestCase(unittest.TestCase):
         self.assertIsInstance(forecast["y"], pd.DataFrame)
         self.assertIsInstance(forecast["y1"], pd.DataFrame)
 
-    def test_add_seasonality(self):
+    def test_add_seasonality_all_models(self):
         mp = multi_prophet.MultiProphet(columns=PREDICTOR_COLUMNS)
         mp.add_seasonality(name="monthly", period=30.5, fourier_order=5)
 
@@ -69,15 +69,44 @@ class MultiProphetTestCase(unittest.TestCase):
             self.assertEqual("additive", seasonality["mode"])
             self.assertIsNone(seasonality["condition_name"])
 
-    def test_add_country_holiday(self):
+    def test_add_seasonality_single_model(self):
         mp = multi_prophet.MultiProphet(columns=PREDICTOR_COLUMNS)
-        mp.add_country_holidays(country_name="US")
+        mp.add_seasonality(name="monthly", columns=["y"], period=30.5, fourier_order=5)
+
+        y_model = mp.model_pool["y"]
+        y_seasonality = y_model.prophet.seasonalities["monthly"]
+
+        self.assertEqual(30.5, y_seasonality["period"])
+        self.assertEqual(5, y_seasonality["fourier_order"])
+        self.assertEqual(10, y_seasonality["prior_scale"])
+        self.assertEqual("additive", y_seasonality["mode"])
+        self.assertIsNone(y_seasonality["condition_name"])
+
+        y1_model = mp.model_pool["y1"]
+        self.assertTrue("monthly" not in y1_model.prophet.seasonalities.keys())
+
+    def test_add_country_holidays_all_models(self):
+        mp = multi_prophet.MultiProphet(columns=PREDICTOR_COLUMNS)
+        mp.add_country_holidays("US")
 
         mp.fit(self.df)
         future_df = mp.make_future_dataframe(7)
 
         for model in mp.model_pool.values():
             self.assertEqual(14, len(model.prophet.train_holiday_names))
+
+    def test_add_country_holidays_single_model(self):
+        mp = multi_prophet.MultiProphet(columns=PREDICTOR_COLUMNS)
+        mp.add_country_holidays("US", columns=["y"])
+
+        mp.fit(self.df)
+        future_df = mp.make_future_dataframe(7)
+
+        y_model = mp.model_pool["y"]
+        self.assertEqual(14, len(y_model.prophet.train_holiday_names))
+
+        y1_model = mp.model_pool["y1"]
+        self.assertIsNone(y1_model.prophet.train_holiday_names)
 
     def test_add_regressor(self):
         mp = multi_prophet.MultiProphet(columns=PREDICTOR_COLUMNS)
