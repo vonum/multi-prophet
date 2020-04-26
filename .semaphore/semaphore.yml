@@ -14,3 +14,9 @@ blocks:
             - checkout
             - pip install -r requirements.txt
             - python -m pytest tests
+  - name: build
+    task:
+      jobs:
+        - name: build package
+          commands:
+            - python3 setup.py sdist bdist_wheel
