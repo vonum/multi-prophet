@@ -1,7 +1,7 @@
 from .prophet import Prophet
 from .factories import model_pool_factory, dataframe_builder_factory
 
-__version__ = "0.2.0"
+__version__ = "0.3.0"
 
 
 class MultiProphet:
@@ -28,17 +28,25 @@ class MultiProphet:
             for column, model in self.model_pool.items()
         }
 
-    def add_seasonality(self, **kwargs):
-        for model in self.model_pool.values():
+    def add_seasonality(self, columns=None, **kwargs):
+        columns = self._columns(columns)
+
+        for model in self._models(columns):
             model.add_seasonality(**kwargs)
 
-    def add_country_holidays(self, country_name):
-        for model in self.model_pool.values():
+    def add_country_holidays(self, country_name, columns=None):
+        columns = self._columns(columns)
+
+        for model in self._models(columns):
             model.add_country_holidays(country_name)
 
-    def add_regressor(self, name, **kwargs):
-        for model in self.model_pool.values():
+    def add_regressor(self, name, columns=None, **kwargs):
+        columns = self._columns(columns)
+
+        for model in self._models(columns):
             model.add_regressor(name, **kwargs)
+
+        self._add_regressor_to_builder(name, columns)
 
     def plot(self, forecasts, plotly=False, **kwargs):
         return {
@@ -65,3 +73,15 @@ class MultiProphet:
 
     def _contains_columns(self, df, column):
         return column in df.columns
+
+    def _add_regressor_to_builder(self, name, columns):
+        self.df_builder.add_regressor(name, columns)
+
+    def _models(self, columns):
+        return [self.model_pool[c] for c in columns]
+
+    def _columns(self, columns):
+        if columns:
+            return columns
+        else:
+            return self.model_pool.keys()

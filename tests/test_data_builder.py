@@ -75,3 +75,17 @@ class DataBuilderTestCase(unittest.TestCase):
 
         y1_df = df_builder.create_df(self.df, "y1")
         np.testing.assert_array_equal(["ds"], y1_df.columns)
+
+    def test_add_regressor(self):
+        df_builder = data_builder.DataFrameBuilder({})
+
+        y_df = df_builder.create_df(self.df, "y")
+        np.testing.assert_array_equal(["ds"], y_df.columns)
+
+        df_builder.add_regressor("y1", ["y"])
+
+        yr_df = df_builder.create_df(self.df, "y")
+        np.testing.assert_array_equal(["ds", "y1"], yr_df.columns)
+
+        y1_df = df_builder.create_df(self.df, "y1")
+        np.testing.assert_array_equal(["ds"], y1_df.columns)
