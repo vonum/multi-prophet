@@ -29,11 +29,15 @@ class MultiProphet:
         }
 
     def add_seasonality(self, columns=None, **kwargs):
-        for model in self._columns_models(columns):
+        columns = self._columns(columns)
+
+        for model in self._models(columns):
             model.add_seasonality(**kwargs)
 
     def add_country_holidays(self, country_name, columns=None):
-        for model in self._columns_models(columns):
+        columns = self._columns(columns)
+
+        for model in self._models(columns):
             model.add_country_holidays(country_name)
 
     def add_regressor(self, name, columns=None, **kwargs):
