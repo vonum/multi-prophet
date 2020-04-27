@@ -24,5 +24,12 @@ class DataFrameBuilder:
 
         return train_df
 
+    def add_regressor(self, name, columns):
+        for column in columns:
+            self._append_regressor(name, column)
+
     def _contains_columns(self, df, column):
         return column in df.columns
+
+    def _append_regressor(self, name, column):
+        self.regressors[column] = self.regressors.get(column, []) + [name]

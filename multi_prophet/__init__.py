@@ -37,8 +37,12 @@ class MultiProphet:
             model.add_country_holidays(country_name)
 
     def add_regressor(self, name, columns=None, **kwargs):
-        for model in self._columns_models(columns):
+        columns = self._columns(columns)
+
+        for model in self._models(columns):
             model.add_regressor(name, **kwargs)
+
+        self._add_regressor_to_builder(name, columns)
 
     def plot(self, forecasts, plotly=False, **kwargs):
         return {
@@ -66,8 +70,14 @@ class MultiProphet:
     def _contains_columns(self, df, column):
         return column in df.columns
 
-    def _columns_models(self, columns):
+    def _add_regressor_to_builder(self, name, columns):
+        self.df_builder.add_regressor(name, columns)
+
+    def _models(self, columns):
+        return [self.model_pool[c] for c in columns]
+
+    def _columns(self, columns):
         if columns:
-            return [self.model_pool[c] for c in columns]
+            return columns
         else:
-            return self.model_pool.values()
+            return self.model_pool.keys()
