@@ -1,6 +1,7 @@
 # Multi Prophet
 [![Build Status](https://vonum.semaphoreci.com/badges/multi-prophet.svg)](https://vonum.semaphoreci.com/projects/multi-prophet)
 [![PyPI version](https://badge.fury.io/py/multi-prophet.svg)](https://badge.fury.io/py/multi-prophet)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT
 
 Multi Prophet is a procedure for forecasting time series data for multipe
 dependent variables based on [Facebook
