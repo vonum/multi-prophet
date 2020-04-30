@@ -32,12 +32,12 @@ class FactoriesTestCase(unittest.TestCase):
             self.assertEqual(50, model.prophet.n_changepoints)
 
     def test_different_models_pool_factory(self):
-        args_dict = {
+        config = {
             "y1": {"growth": "logistic", "daily_seasonality": True},
             "y2": {"growth": "linear", "weekly_seasonality": True},
         }
 
-        model_pool = multi_prophet.model_pool_factory(args_dict=args_dict)
+        model_pool = multi_prophet.model_pool_factory(config=config)
 
         y1_model = model_pool["y1"]
         self.assertEqual("logistic", y1_model.prophet.growth)
@@ -56,8 +56,8 @@ class FactoriesTestCase(unittest.TestCase):
 
     def test_added_all_regressors(self):
         regressors = {
-          "y1": [{"name": "y2", "prior_scale": 0.5}],
-          "y2": [{"name": "y1", "prior_scale": 0.3}]
+            "y1": [{"name": "y2", "prior_scale": 0.5}],
+            "y2": [{"name": "y1", "prior_scale": 0.3}]
         }
 
         model_pool = multi_prophet.model_pool_factory(columns=PREDICTOR_COLUMNS,
@@ -97,13 +97,13 @@ class FactoriesTestCase(unittest.TestCase):
         self.assertEqual(0, len(y2_model.prophet.extra_regressors))
 
     def test_different_models_regressors(self):
-        args_dict = {
+        config = {
             "y1": {"growth": "logistic", "daily_seasonality": True},
             "y2": {"growth": "linear", "weekly_seasonality": True},
         }
         regressors = {"y1": [{"name": "y2", "prior_scale": 0.5}]}
 
-        model_pool = multi_prophet.model_pool_factory(args_dict=args_dict,
+        model_pool = multi_prophet.model_pool_factory(config=config,
                                                       regressors=regressors)
 
         y1_model = model_pool["y1"]

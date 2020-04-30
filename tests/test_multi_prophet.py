@@ -6,6 +6,7 @@ import multi_prophet
 
 PREDICTOR_COLUMNS = ["y", "y1"]
 
+
 class MultiProphetTestCase(unittest.TestCase):
 
     def setUp(self):
