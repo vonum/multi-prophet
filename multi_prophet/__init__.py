@@ -6,9 +6,9 @@ __version__ = "0.3.0"
 
 class MultiProphet:
 
-    def __init__(self, columns=[], args_dict=None, regressors={}, **kwargs):
+    def __init__(self, columns=[], config=None, regressors={}, **kwargs):
         self.model_pool = model_pool_factory(columns=columns,
-                                             args_dict=args_dict,
+                                             config=config,
                                              regressors=regressors,
                                              **kwargs)
         self.df_builder = dataframe_builder_factory(regressors)
