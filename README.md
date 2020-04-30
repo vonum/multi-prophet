@@ -1,6 +1,7 @@
-[![Build Status](https://vonum.semaphoreci.com/badges/multi-prophet.svg)](https://vonum.semaphoreci.com/projects/multi-prophet)
-
 # Multi Prophet
+[![Build Status](https://vonum.semaphoreci.com/badges/multi-prophet.svg)](https://vonum.semaphoreci.com/projects/multi-prophet)
+[![PyPI version](https://badge.fury.io/py/multi-prophet.svg)](https://badge.fury.io/py/multi-prophet)
+
 Multi Prophet is a procedure for forecasting time series data for multipe
 dependent variables based on [Facebook
 Prophet](https://facebook.github.io/prophet/) package. If you have no prior
