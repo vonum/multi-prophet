@@ -10,14 +10,23 @@ Multi Prophet does not train a single model with many outputs, it just wraps
 Facebook Prophet interface to support configuration and controll over multiple
 models. Multi Prophet has a very similar interface as Facebook Prophet.
 
+The main difference is that return values of each method is a dictionary where
+each dependent value is a key, and the value is thereturn value of the linked
+Facebook Prophet model.
+
+If Prophet return value is a data frame, then MultiProphet return value will be:
+``` python
+{"dependent_variable1": df1, "dependent_variable2": df2}
+```
+
 ### Installation
 Multi Prophet is on PyPi.
 `pip install multi-prophet`
 
 ### Getting started
 Creating a basic model is almost the same as creating a Prophet model:
+#### Prophet
 ```python
-# Prophet
 # dataframe needs to have columns ds and y
 from fbprophet import Prophet
 
@@ -27,8 +36,10 @@ m.fit(df)
 future = m.create_future_dataframe(df)
 forecast = m.predict(future)
 m.plot(forecast)
+```
 
-# Multi Prophet
+#### Multi Prophet
+```python
 # dataframe needs to have column ds, and it has y1 and y2 as dependent variables
 from multi_prophet import MultiProphet
 
@@ -41,11 +52,13 @@ m.plot(forecast)
 ```
 
 ### Adding country holidays
+#### Prophet
 ```python
-# Prophet
 m.add_country_holidays(country_name="US")
+```
 
-# Multi Prophet
+#### Multi Prophet
+```python
 # For all dependent variables
 m.add_country_holidays("US")
 
@@ -54,11 +67,13 @@ m.add_country_holidays("US", columns=["y1"])
 ```
 
 ### Adding seasonality
+#### Prophet
 ```python
-# Prophet
 m.add_seasonality(name="monthly", period=30.5, fourier_order=5)
+```
 
-# Multi Prophet
+#### Multi Prophet
+```python
 # For all dependent variables
 m.add_seasonality(name="monthly", period=30.5, fourier_order=5)
 
@@ -80,13 +95,26 @@ m.add_regressor("Matchday", columns=["y"])
 ```
 
 ### Ploting results
+#### Prophet
 ```python
 # Prophet
 m.plot(forecast)
 m.plot_components(forecast)
 
 # With Plotly
+from fbprophet.plot import plot_plotly, plot_components_plotly
+import plotly.offline as py
+py.init_notebook_mode()
 
+fig = plot_plotly(m, forecast)
+py.iplot(fig)
+
+fig = plot_components_plotly(m, forecast)
+py.iplot(fig)
+```
+
+#### Multi Prophet
+```python
 # Multi Prophet
 m.plot(forecast)
 m.plot_components(forecast)
@@ -105,19 +133,22 @@ for fig in figures.values():
 
 # or access by key
 figures["y1"].show()
+```
 
 ### Facebook Prophet model configuration
 Facebook Prophet supports a lot of configuration through kwargs. There are
 two ways to do it with Multi Prophet:
 1. Through kwargs just as with Facebook Prophet
+    * Prophet
 ```python
-# Prophet
 m = Prophet(growth="logistic")
 m.fit(self.df, algorithm="Newton")
 m.make_future_dataframe(7, freq="H")
 m.add_regressor("Matchday", prior_scale=10)
+```
 
-# Multi Prophet
+    * Multi Prophet
+```python
 m = MultiProphet(growth="logistic")
 m.fit(self.df, algorithm="Newton")
 m.make_future_dataframe(7, freq="H")
@@ -126,7 +157,6 @@ m.add_regressor("Matchday", prior_scale=10)
 
 2. Configuration through constructor
 ```python
-# Multi Prophet
 # Same configuration for each dependent variable
 m = MultiProphet(columns=["y1", "y2"],
                  growth="logistic",
