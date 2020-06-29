@@ -13,7 +13,7 @@ Facebook Prophet interface to support configuration and controll over multiple
 models. Multi Prophet has a very similar interface as Facebook Prophet.
 
 The main difference is that return values of each method is a dictionary where
-each dependent value is a key, and the value is thereturn value of the linked
+each dependent value is a key, and the value is the return value of the linked
 Facebook Prophet model.
 
 If Prophet return value is a data frame, then MultiProphet return value will be:
@@ -84,11 +84,13 @@ m.add_seasonality(name="monthly", period=30.5, fourier_order=5, columns=["y1"])
 ```
 
 ### Adding regressors
+#### Prophet
 ```python
-# Prophet
 m.add_regressor("Matchday")
+```
 
-# Multi Prophet
+#### Multi Prophet
+```python
 # For all dependent variables
 m.add_regressor("Matchday")
 
@@ -117,7 +119,6 @@ py.iplot(fig)
 
 #### Multi Prophet
 ```python
-# Multi Prophet
 m.plot(forecast)
 m.plot_components(forecast)
 
@@ -151,7 +152,7 @@ m.add_regressor("Matchday", prior_scale=10)
 
     * Multi Prophet
 ```python
-m = MultiProphet(growth="logistic")
+m = MultiProphet(columns=["y1", "y2"], growth="logistic")
 m.fit(self.df, algorithm="Newton")
 m.make_future_dataframe(7, freq="H")
 m.add_regressor("Matchday", prior_scale=10)
