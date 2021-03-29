@@ -28,7 +28,7 @@ pluggy==0.13.1
 prompt-toolkit==3.0.5
 ptyprocess==0.6.0
 py==1.8.1
-Pygments==2.6.1
+Pygments==2.7.4
 PyMeeus==0.3.7
 pyparsing==2.4.7
 pystan==2.19.1.1
