@@ -166,3 +166,32 @@ class ProphetTestCase(unittest.TestCase):
             mp.plot_components(forecast, plotly=True),
             plotly.graph_objs.Figure
         )
+
+    def test_cross_validation(self):
+        mp = multi_prophet.Prophet()
+        mp.fit(self.df)
+
+        cross_validation_df = mp.cross_validation(horizon="365 days")
+        self.assertIsInstance(cross_validation_df, pd.DataFrame)
+
+        self.assertTrue("ds" in cross_validation_df.columns)
+        self.assertTrue("yhat" in cross_validation_df.columns)
+        self.assertTrue("yhat_lower" in cross_validation_df.columns)
+        self.assertTrue("yhat_upper" in cross_validation_df.columns)
+        self.assertTrue("y" in cross_validation_df.columns)
+        self.assertTrue("cutoff" in cross_validation_df.columns)
+
+    def test_performance_metrics(self):
+        mp = multi_prophet.Prophet()
+        mp.fit(self.df)
+
+        performance_metrics_df = mp.performance_metrics(horizon="365 days")
+        self.assertIsInstance(performance_metrics_df, pd.DataFrame)
+
+        self.assertTrue("horizon" in performance_metrics_df.columns)
+        self.assertTrue("mse" in performance_metrics_df.columns)
+        self.assertTrue("rmse" in performance_metrics_df.columns)
+        self.assertTrue("mae" in performance_metrics_df.columns)
+        self.assertTrue("mape" in performance_metrics_df.columns)
+        self.assertTrue("mdape" in performance_metrics_df.columns)
+        self.assertTrue("coverage" in performance_metrics_df.columns)
