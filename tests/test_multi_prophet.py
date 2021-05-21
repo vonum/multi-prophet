@@ -172,3 +172,17 @@ class MultiProphetTestCase(unittest.TestCase):
             self.assertTrue("yhat_upper" in cross_validation_df.columns)
             self.assertTrue("y" in cross_validation_df.columns)
             self.assertTrue("cutoff" in cross_validation_df.columns)
+
+    def test_performance_metrics(self):
+        mp = multi_prophet.MultiProphet(columns=PREDICTOR_COLUMNS)
+        mp.fit(self.df)
+
+        performance_metrics_dfs = mp.performance_metrics(horizon="365 days")
+        for c, performance_metrics_df in performance_metrics_dfs.items():
+            self.assertTrue("horizon" in performance_metrics_df.columns)
+            self.assertTrue("mse" in performance_metrics_df.columns)
+            self.assertTrue("rmse" in performance_metrics_df.columns)
+            self.assertTrue("mae" in performance_metrics_df.columns)
+            self.assertTrue("mape" in performance_metrics_df.columns)
+            self.assertTrue("mdape" in performance_metrics_df.columns)
+            self.assertTrue("coverage" in performance_metrics_df.columns)

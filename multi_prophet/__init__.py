@@ -68,6 +68,12 @@ class MultiProphet:
             for column, model in self.model_pool.items()
         }
 
+    def performance_metrics(self, horizon, **kwargs):
+        return {
+            column: model.performance_metrics(horizon=horizon, **kwargs)
+            for column, model in self.model_pool.items()
+        }
+
     def _init_model_pool(self, columns, **kwargs):
         return {c: Prophet(**kwargs) for c in columns}
 
