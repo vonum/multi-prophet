@@ -1,6 +1,7 @@
 from .prophet import Prophet
 from .data_builder import DataFrameBuilder
 
+
 def model_pool_factory(columns=None, config=None, regressors={}, **kwargs):
     if config:
         return _different_models_pool_factory(config, regressors)
