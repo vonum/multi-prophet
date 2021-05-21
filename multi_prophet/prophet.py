@@ -1,5 +1,5 @@
 import fbprophet
-from fbprophet.diagnostics import cross_validation
+from fbprophet.diagnostics import cross_validation, performance_metrics
 from . import plots
 
 
@@ -40,3 +40,7 @@ class Prophet:
 
     def cross_validation(self, horizon, **kwargs):
         return cross_validation(self.prophet, horizon=horizon, **kwargs)
+
+    def performance_metrics(self, horizon, **kwargs):
+        cv_df = cross_validation(self.prophet, horizon=horizon, **kwargs)
+        return performance_metrics(cv_df)
