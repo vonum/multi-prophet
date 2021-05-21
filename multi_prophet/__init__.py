@@ -62,6 +62,12 @@ class MultiProphet:
             for column, forecast in forecasts.items()
         }
 
+    def cross_validation(self, horizon, **kwargs):
+        return {
+            column: model.cross_validation(horizon=horizon, **kwargs)
+            for column, model in self.model_pool.items()
+        }
+
     def _init_model_pool(self, columns, **kwargs):
         return {c: Prophet(**kwargs) for c in columns}
 

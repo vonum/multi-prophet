@@ -159,3 +159,16 @@ class MultiProphetTestCase(unittest.TestCase):
 
         for plot in plots:
           self.assertIsInstance(plot, matplotlib.figure.Figure)
+
+    def test_cross_validation(self):
+        mp = multi_prophet.MultiProphet(columns=PREDICTOR_COLUMNS)
+        mp.fit(self.df)
+
+        cross_validation_dfs = mp.cross_validation(horizon="365 days")
+        for c, cross_validation_df in cross_validation_dfs.items():
+            self.assertTrue("ds" in cross_validation_df.columns)
+            self.assertTrue("yhat" in cross_validation_df.columns)
+            self.assertTrue("yhat_lower" in cross_validation_df.columns)
+            self.assertTrue("yhat_upper" in cross_validation_df.columns)
+            self.assertTrue("y" in cross_validation_df.columns)
+            self.assertTrue("cutoff" in cross_validation_df.columns)
