@@ -166,3 +166,17 @@ class ProphetTestCase(unittest.TestCase):
             mp.plot_components(forecast, plotly=True),
             plotly.graph_objs.Figure
         )
+
+    def test_cross_validation(self):
+        mp = multi_prophet.Prophet()
+        mp.fit(self.df)
+
+        cross_validation_df = mp.cross_validation(horizon="365 days")
+        self.assertIsInstance(cross_validation_df, pd.DataFrame)
+
+        self.assertTrue("ds" in cross_validation_df.columns)
+        self.assertTrue("yhat" in cross_validation_df.columns)
+        self.assertTrue("yhat_lower" in cross_validation_df.columns)
+        self.assertTrue("yhat_upper" in cross_validation_df.columns)
+        self.assertTrue("y" in cross_validation_df.columns)
+        self.assertTrue("cutoff" in cross_validation_df.columns)

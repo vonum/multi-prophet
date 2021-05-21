@@ -1,4 +1,5 @@
 import fbprophet
+from fbprophet.diagnostics import cross_validation
 from . import plots
 
 
@@ -36,3 +37,6 @@ class Prophet:
             return plots.plotly_components_plot(self.prophet, forecast, **kwargs)
         else:
             return self.prophet.plot_components(forecast)
+
+    def cross_validation(self, horizon, **kwargs):
+        return cross_validation(self.prophet, horizon=horizon, **kwargs)
