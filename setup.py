@@ -5,7 +5,7 @@ with open("README.md", "r") as fh:
 
 setuptools.setup(
     name="multi-prophet",
-    version="1.0.0",
+    version="1.0.1",
     author="Milan Keca",
     author_email="vonum.mk@gmail.com",
     description="Multivariate forecasting using Facebook Prophet",
@@ -19,7 +19,7 @@ setuptools.setup(
         "Operating System :: OS Independent",
     ],
     install_requires=[
-        "fbprophet",
+        "fbprophet==0.6",
         "pandas",
         "plotly"
     ]
