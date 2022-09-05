@@ -3,19 +3,18 @@ import numpy as np
 import pandas as pd
 import matplotlib
 import plotly
-import fbprophet
+import prophet
 import multi_prophet
 
 
 class ProphetTestCase(unittest.TestCase):
-
     def setUp(self):
         self.df = pd.read_csv("tests/data/example_wp_log_peyton_manning.csv")
 
     def test_constructor(self):
         mp = multi_prophet.Prophet()
         self.assertIsNotNone(mp)
-        self.assertIsInstance(mp.prophet, fbprophet.Prophet)
+        self.assertIsInstance(mp.prophet, prophet.Prophet)
 
     def test_constructor_kwargs(self):
         mp = multi_prophet.Prophet(growth="logistic")

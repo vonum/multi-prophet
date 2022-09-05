@@ -7,7 +7,6 @@ PREDICTOR_COLUMNS = ["y", "y1"]
 
 
 class DataBuilderTestCase(unittest.TestCase):
-
     def setUp(self):
         self.df = pd.read_csv("tests/data/example_wp_log_peyton_manning.csv")
         self.df["y1"] = self.df["y"]

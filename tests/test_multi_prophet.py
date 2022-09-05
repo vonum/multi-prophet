@@ -4,8 +4,8 @@ import pandas as pd
 import matplotlib
 import multi_prophet
 
-PREDICTOR_COLUMNS = ["y", "y1"]
 
+PREDICTOR_COLUMNS = ["y", "y1"]
 
 class MultiProphetTestCase(unittest.TestCase):
 
@@ -14,7 +14,7 @@ class MultiProphetTestCase(unittest.TestCase):
         self.df["y1"] = self.df["y"]
 
     def test_version(self):
-        self.assertEqual("0.3.0", multi_prophet.__version__)
+        self.assertEqual("1.1.0", multi_prophet.__version__)
 
     def test_constructor(self):
         mp = multi_prophet.MultiProphet(columns=PREDICTOR_COLUMNS)

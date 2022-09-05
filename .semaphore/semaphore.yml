@@ -3,14 +3,14 @@ name: Initial Pipeline
 agent:
   machine:
     type: e1-standard-2
-    os_image: ubuntu1804
+    os_image: ubuntu2004
 blocks:
   - name: tests
     task:
       jobs:
         - name: unit tests
           commands:
-            - sem-version python 3.7
+            - sem-version python 3.8
             - checkout
             - pip install -r requirements.txt
             - python -m pytest tests
@@ -19,6 +19,6 @@ blocks:
       jobs:
         - name: build package
           commands:
-            - sem-version python 3.7
+            - sem-version python 3.8
             - checkout
             - python3 setup.py sdist bdist_wheel
