@@ -1,12 +1,11 @@
-import fbprophet
-from fbprophet.diagnostics import cross_validation, performance_metrics
+import prophet
+from prophet.diagnostics import cross_validation, performance_metrics
 from . import plots
 
 
 class Prophet:
-
     def __init__(self, **kwargs):
-        self.prophet = fbprophet.Prophet(**kwargs)
+        self.prophet = prophet.Prophet(**kwargs)
 
     def fit(self, df, **kwargs):
         self.prophet.fit(df, **kwargs)

@@ -1,12 +1,11 @@
 import unittest
-import fbprophet
+import prophet
 import multi_prophet
+
 
 PREDICTOR_COLUMNS = ["y1", "y2"]
 
-
 class FactoriesTestCase(unittest.TestCase):
-
     def test_no_args(self):
         model_pool = multi_prophet.model_pool_factory(columns=PREDICTOR_COLUMNS)
 

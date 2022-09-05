@@ -4,8 +4,8 @@ import pandas as pd
 import matplotlib
 import multi_prophet
 
-PREDICTOR_COLUMNS = ["y", "y1"]
 
+PREDICTOR_COLUMNS = ["y", "y1"]
 
 class MultiProphetTestCase(unittest.TestCase):
 

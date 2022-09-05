@@ -5,7 +5,7 @@ with open("README.md", "r") as fh:
 
 setuptools.setup(
     name="multi-prophet",
-    version="1.0.1",
+    version="1.1.0",
     author="Milan Keca",
     author_email="vonum.mk@gmail.com",
     description="Multivariate forecasting using Facebook Prophet",
