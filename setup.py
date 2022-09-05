@@ -19,7 +19,7 @@ setuptools.setup(
         "Operating System :: OS Independent",
     ],
     install_requires=[
-        "prophet=1.0",
+        "prophet==1.0",
         "pandas",
         "plotly"
     ]
