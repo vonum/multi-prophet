@@ -1,11 +1,10 @@
 from .prophet import Prophet
 from .factories import model_pool_factory, dataframe_builder_factory
 
-__version__ = "1.1.0"
+__version__ = "1.1.1"
 
 
 class MultiProphet:
-
     def __init__(self, columns=[], config=None, regressors={}, **kwargs):
         self.model_pool = model_pool_factory(columns=columns,
                                              config=config,
