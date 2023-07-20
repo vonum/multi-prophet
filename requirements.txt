@@ -28,7 +28,7 @@ prompt-toolkit==3.0.5
 prophet==1.0
 ptyprocess==0.6.0
 py==1.11.0
-Pygments==2.6.1
+Pygments==2.15.0
 PyMeeus==0.5.11
 pyparsing==2.4.7
 pystan==2.19.1.1
